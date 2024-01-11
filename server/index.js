@@ -34,6 +34,13 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         }
     });
     
+
+
+
+// O cualquier otra ruta que estés tratando de acceder
+
+    
+    
     // Mantén la ruta existente para obtener todos los pedidos
     app.get('/', async (req, res) => {
         try {
@@ -87,4 +94,9 @@ process.on('SIGINT', () => {
         console.log('Conexión a la base de datos cerrada');
         process.exit(0);
     });
+});
+
+// Manejo personalizado para rutas no encontradas
+app.use((req, res) => {
+    res.status(404).json({ error: 'Página no encontrada' });
 });

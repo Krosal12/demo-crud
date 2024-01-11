@@ -25,33 +25,25 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         process.exit(1); 
     });
 
-    app.get('/pedidos', async (req, res) => {
-        try {
-            const pedidos = await pedidoModel.find();
-            res.json(pedidos);
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
-    });
-    
+// Manejar la ruta /pedidos
+app.get('/pedidos/*', async (req, res) => {
+    try {
+        const pedidos = await pedidoModel.find();
+        res.json(pedidos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
-
-
-// O cualquier otra ruta que estés tratando de acceder
-
-    
-    
-    // Mantén la ruta existente para obtener todos los pedidos
-    app.get('/', async (req, res) => {
-        try {
-            const pedidos = await pedidoModel.find();
-            res.json(pedidos);
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
-    });
-    
-    // Resto del código permanece igual
+// Manejar cualquier otra ruta
+app.get('/*', async (req, res) => {
+    try {
+        const pedidos = await pedidoModel.find();
+        res.json(pedidos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
     
 
 app.post("/createPedidos", async (req, res) => {

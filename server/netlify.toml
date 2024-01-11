@@ -3,7 +3,7 @@
 
 [[redirects]]
   from = "/pedidos/*"
-  to = "/.netlify/functions/app/pedidos/:splat"
+  to = "/.netlify/functions/app/:splat"
   status = 200
 
 [[redirects]]

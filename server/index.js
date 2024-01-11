@@ -1,54 +1,73 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require ('cors')
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
 
+dotenv.config();
 
-const pedidoModel = require('./models/pedidos')
+const pedidoModel = require('./models/pedidos');
 
-const app=express()
+const app = express();
 
-app.use(cors())
-app.use(express.json())
+const PORT = process.env.PORT || 3001;
 
-mongoose.connect("mongodb://localhost:27017/pedidos");
+app.use(cors());
+app.use(express.json());
 
+const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/pedidos";
 
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Conexión a la base de datos establecida correctamente');
+    })
+    .catch((err) => {
+        console.error('Error al conectar a la base de datos:', err);
+        process.exit(1); 
+    });
 
-app.get('/', async(req, res)=>{
+app.get('/', async (req, res) => {
     const pedidos = await pedidoModel.find();
     res.json(pedidos);
-})
-
-
-//crear
-app.post("/createPedidos", (req, res) => {
-    pedidoModel.create(req.body)
-        .then(pedidos => res.json(pedidos))
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ error: err.message });
-        });
 });
 
+app.post("/createPedidos", async (req, res) => {
+    try {
+        const pedidos = await pedidoModel.create(req.body);
+        res.json(pedidos);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
-//buscar por id
-app.get('/getPedido/:id',(req, res)=>{
-    const id = req.params.id;
-    pedidoModel.findById({_id:id})
-    .then(pedidos=>res.json(pedidos))
-    .catch(err=>res.json(err))
-})
+app.get('/getPedido/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pedidos = await pedidoModel.findById(id);
+        res.json(pedidos);
+    } catch (err) {
+        res.json(err);
+    }
+});
 
-app.put('/updatePedidos/:id', (req, res) => {
-    const id = req.params.id;
-    pedidoModel.findByIdAndUpdate(id, req.body
+app.put('/updatePedidos/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pedidos = await pedidoModel.findByIdAndUpdate(id, req.body, { new: true });
+        res.json(pedidos);
+    } catch (err) {
+        res.json(err);
+    }
+});
 
-    , { new: true }) // Esta opción devuelve el nuevo objeto actualizado
-        .then(pedidos => res.json(pedidos))
-        .catch(err => res.json(err))
-})
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
 
-
-app.listen(3001, ()=>{
-    console.log("Servidor corriendo en el puerto 3001")
-})
+// Cerrar la conexión a la base de datos cuando la aplicación se apague
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+        console.log('Conexión a la base de datos cerrada');
+        process.exit(0);
+    });
+});

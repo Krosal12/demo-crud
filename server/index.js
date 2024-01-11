@@ -25,25 +25,23 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         process.exit(1); 
     });
 
-// Manejar la ruta /pedidos
-app.get('/pedidos/*', async (req, res) => {
-    try {
-        const pedidos = await pedidoModel.find();
-        res.json(pedidos);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// Manejar cualquier otra ruta
-app.get('/*', async (req, res) => {
-    try {
-        const pedidos = await pedidoModel.find();
-        res.json(pedidos);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
+    app.get('/pedidos', async (req, res) => {
+        try {
+            const pedidos = await pedidoModel.find();
+            res.json(pedidos);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    });
+ 
+    app.get('/', async (req, res) => {
+        try {
+            const pedidos = await pedidoModel.find();
+            res.json(pedidos);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    });
     
 
 app.post("/createPedidos", async (req, res) => {
@@ -80,7 +78,7 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-// Cerrar la conexión a la base de datos cuando la aplicación se apague
+
 process.on('SIGINT', () => {
     mongoose.connection.close(() => {
         console.log('Conexión a la base de datos cerrada');
@@ -88,7 +86,7 @@ process.on('SIGINT', () => {
     });
 });
 
-// Manejo personalizado para rutas no encontradas
+
 app.use((req, res) => {
     res.status(404).json({ error: 'Página no encontrada' });
 });

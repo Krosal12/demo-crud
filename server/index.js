@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const app =express();
 
-
+const pedidoModel = require('./models/pedidos');
 require("dotenv").config();
 
 //middleware
@@ -28,6 +28,14 @@ app.get('/', async (req, res) => {
     }
 });
 
+app.get('/pedidos', async (req, res) => {
+    try {
+        const pedidos = await pedidoModel.find();
+        res.json(pedidos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 
 

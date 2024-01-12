@@ -28,12 +28,34 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/pedidos', async (req, res) => {
+
+app.post("/createPedidos", async (req, res) => {
     try {
-        const pedidos = await pedidoModel.find();
+        const pedidos = await pedidoModel.create(req.body);
         res.json(pedidos);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/getPedido/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pedidos = await pedidoModel.findById(id);
+        res.json(pedidos);
+    } catch (err) {
+        res.json(err);
+    }
+});
+
+app.put('/updatePedidos/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const pedidos = await pedidoModel.findByIdAndUpdate(id, req.body, { new: true });
+        res.json(pedidos);
+    } catch (err) {
+        res.json(err);
     }
 });
 

@@ -1,4 +1,40 @@
-const express = require('express');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require('cors');
+const app =express();
+require("dotenv").config();
+
+//middleware
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect(process.env.MONGODB_URI).then(()=>{
+    const PORT =process.env.PORT || 8000
+    app.listen(PORT,()=>{
+        console.log(`Servidor corriendo en ${PORT}`);
+    })
+}).catch(err=>{
+    console.log(err);
+});
+
+app.get("/",(req,res)=>{
+    res.status(201).json({message:"Conectado a la backend"})
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -90,3 +126,4 @@ process.on('SIGINT', () => {
 app.use((req, res) => {
     res.status(404).json({ error: 'Página no encontrada' });
 });
+*/

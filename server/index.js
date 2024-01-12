@@ -1,47 +1,11 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require('cors');
-const app =express();
-require("dotenv").config();
-
-//middleware
-app.use(cors());
-app.use(express.json());
-
-mongoose.connect(process.env.MONGODB_URI).then(()=>{
-    const PORT =process.env.PORT || 8000
-    app.listen(PORT,()=>{
-        console.log(`Servidor corriendo en ${PORT}`);
-    })
-}).catch(err=>{
-    console.log(err);
-});
-
-app.get("/",(req,res)=>{
-    res.status(201).json({message:"Conectado a la backend"})
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-const pedidoModel = require('./models/pedidos');
+import pedidoModel from './models/pedidos';
 
 const app = express();
 
@@ -50,7 +14,7 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/pedidos";
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pedidos';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -58,29 +22,28 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     })
     .catch((err) => {
         console.error('Error al conectar a la base de datos:', err);
-        process.exit(1); 
+        process.exit(1);
     });
 
-    app.get('/pedidos', async (req, res) => {
-        try {
-            const pedidos = await pedidoModel.find();
-            res.json(pedidos);
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
-    });
- 
-    app.get('/', async (req, res) => {
-        try {
-            const pedidos = await pedidoModel.find();
-            res.json(pedidos);
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
-    });
-    
+app.get('/pedidos', async (req, res) => {
+    try {
+        const pedidos = await pedidoModel.find();
+        res.json(pedidos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
-app.post("/createPedidos", async (req, res) => {
+app.get('/', async (req, res) => {
+    try {
+        const pedidos = await pedidoModel.find();
+        res.json(pedidos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/createPedidos', async (req, res) => {
     try {
         const pedidos = await pedidoModel.create(req.body);
         res.json(pedidos);
@@ -114,7 +77,6 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-
 process.on('SIGINT', () => {
     mongoose.connection.close(() => {
         console.log('Conexión a la base de datos cerrada');
@@ -122,8 +84,6 @@ process.on('SIGINT', () => {
     });
 });
 
-
 app.use((req, res) => {
     res.status(404).json({ error: 'Página no encontrada' });
 });
-*/

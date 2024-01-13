@@ -11,7 +11,7 @@ function Pedidos() {
 
     useEffect(()=>{
         const fetchData = async() =>{
-        const result = await axios.get('http://localhost:3001');
+        const result = await axios.get('https://demo-crud-back.onrender.com');
         setPedidos(result.data);
         };
         /*

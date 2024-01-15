@@ -11,10 +11,8 @@ function Pedidos() {
 
     useEffect(()=>{
         const fetchData = async() =>{
-            const result = await axios.get('https://demo-crud-back.onrender.com');
-
-
-        setPedidos(result.data);
+            const result = await axios.get('https://demo-crud-back.onrender.com/api');
+            setPedidos(result.data);
         };
         /*
                 axios.get('http://localhost:3001');
@@ -30,7 +28,7 @@ function Pedidos() {
           const confirmCancel = window.confirm('¿Estás seguro de que deseas cancelar este pedido?');
   
           if (confirmCancel) {
-            const result = await axios.put(`https://demo-crud-back.onrender.com/updatePedidos/${id}`, { estado: 'Cancelado' });
+            const result = await axios.put(`https://demo-crud-back.onrender.com/api/updatePedidos/${id}`, { estado: 'Cancelado' });
 
             const updatedPedidos = pedidos.map(pedido => (pedido._id === id) ? { ...pedido, estado: 'Cancelado' } : pedido);
             setPedidos(updatedPedidos);

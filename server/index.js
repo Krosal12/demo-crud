@@ -23,17 +23,17 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
     console.log(err);
 });
 
-app.get('/', async (req, res) => {
+app.get('/api', async (req, res) => {
     try {
-        const pedidos = await pedidoModel.find();
-        res.json(pedidos);
+      const pedidos = await pedidoModel.find();
+      res.json(pedidos);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
     }
-});
+  });
+  
 
-
-app.post("/createPedidos", async (req, res) => {
+app.post("/api/createPedidos", async (req, res) => {
     try {
         const pedidos = await pedidoModel.create(req.body);
         res.json(pedidos);
@@ -43,7 +43,7 @@ app.post("/createPedidos", async (req, res) => {
     }
 });
 
-app.get('/getPedido/:id', async (req, res) => {
+app.get('/api/getPedido/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const pedidos = await pedidoModel.findById(id);
@@ -53,7 +53,7 @@ app.get('/getPedido/:id', async (req, res) => {
     }
 });
 
-app.put('/updatePedidos/:id', async (req, res) => {
+app.put('/api/updatePedidos/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const pedidos = await pedidoModel.findByIdAndUpdate(id, req.body, { new: true });

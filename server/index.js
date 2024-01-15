@@ -7,7 +7,12 @@ const pedidoModel = require('./models/pedidos');
 require("dotenv").config();
 
 //middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://main--zesty-daifuku-9fcf1f.netlify.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+  }));
+  
+
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI).then(()=>{

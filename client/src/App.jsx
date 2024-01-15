@@ -6,7 +6,7 @@ import ActualizarPedido from './ActualizarPedido';
 import CrearPedido from './CrearPedido';
 import Pedidos from './Pedidos.jsx';
 // Importa el componente DetallePedido con PascalCase
-import DetallePedido from './detallePedido.jsx';
+import DetallePedido from './DetallePedido.jsx';
 
 function App() {
   return (

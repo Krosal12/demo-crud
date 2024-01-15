@@ -9,10 +9,9 @@ require("dotenv").config();
 //middleware
 app.use(cors({
     origin: 'https://main--zesty-daifuku-9fcf1f.netlify.app',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
-  }));
-  
-
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // si necesitas enviar cookies
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI).then(()=>{

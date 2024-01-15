@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ActualizarPedido from './ActualizarPedido';
 import CrearPedido from './CrearPedido';
-import Pedidos from './pedidos.jsx';
+import Pedidos from './Pedidos.jsx';
 // Importa el componente DetallePedido con PascalCase
 import DetallePedido from './detallePedido.jsx';
 

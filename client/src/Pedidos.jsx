@@ -21,7 +21,7 @@ function Pedidos() {
         fetchData();
     }, []);
 
-
+x
 
     const handleCancel = async (id) => {
       try {
@@ -32,13 +32,10 @@ function Pedidos() {
 
             const updatedPedidos = pedidos.map(pedido => (pedido._id === id) ? { ...pedido, estado: 'Cancelado' } : pedido);
             setPedidos(updatedPedidos);
-  
-              // Mostrar alerta de cancelación exitosa
               window.alert('Pedido cancelado exitosamente.');
           }
       } catch (error) {
           console.error(error);
-          // Mostrar alerta en caso de error
           window.alert('Error al cancelar el pedido. Por favor, inténtalo de nuevo.');
       }
   };
